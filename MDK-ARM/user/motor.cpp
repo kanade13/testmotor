@@ -13,7 +13,7 @@ void motor::Motor_Output(int num){
 		HAL_GPIO_WritePin(GPIOC,GPIO_PIN_1,GPIO_PIN_RESET);
 		HAL_GPIO_WritePin(GPIOC,GPIO_PIN_1,GPIO_PIN_SET);
 	}
-	int pwm=do_position_pid(speed,num);
+	int pwm=this->pid.do_position_pid(speed,num);
 	if(pwm>max_speed)
 		pwm=max_speed;	//限幅
 	else if(pwm<-max_speed)

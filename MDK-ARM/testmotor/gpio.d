@@ -31,6 +31,3 @@ testmotor\gpio.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h
 testmotor\gpio.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h
 testmotor\gpio.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
 testmotor\gpio.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
-testmotor\gpio.o: .\user\chassis.hpp
-testmotor\gpio.o: .\user\motor.hpp
-testmotor\gpio.o: ../Core/Inc/main.h

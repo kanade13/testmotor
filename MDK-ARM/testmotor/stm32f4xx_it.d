@@ -30,7 +30,8 @@ testmotor\stm32f4xx_it.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.
 testmotor\stm32f4xx_it.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h
 testmotor\stm32f4xx_it.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
 testmotor\stm32f4xx_it.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
+testmotor\stm32f4xx_it.o: ../Core/Inc/stm32f4xx_it.h
 testmotor\stm32f4xx_it.o: .\user\chassis.hpp
 testmotor\stm32f4xx_it.o: .\user\motor.hpp
-testmotor\stm32f4xx_it.o: ../Core/Inc/main.h
-testmotor\stm32f4xx_it.o: ../Core/Inc/stm32f4xx_it.h
+testmotor\stm32f4xx_it.o: .\user\PID.hpp
+testmotor\stm32f4xx_it.o: ../Core/Inc/tim.h

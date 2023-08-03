@@ -5,7 +5,6 @@
 "testmotor\tim.o"
 "testmotor\stm32f4xx_it.o"
 "testmotor\stm32f4xx_hal_msp.o"
-"testmotor\motor.o"
 "testmotor\stm32f4xx_hal_tim.o"
 "testmotor\stm32f4xx_hal_tim_ex.o"
 "testmotor\stm32f4xx_hal_rcc.o"
@@ -22,6 +21,9 @@
 "testmotor\stm32f4xx_hal.o"
 "testmotor\stm32f4xx_hal_exti.o"
 "testmotor\system_stm32f4xx.o"
+"testmotor\pid.o"
+"testmotor\motor.o"
+"testmotor\chassis.o"
 --strict --scatter "testmotor\testmotor.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

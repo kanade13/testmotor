@@ -23,8 +23,9 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "motor.hpp"
 #include "chassis.hpp"
+#include "motor.hpp"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -55,7 +56,7 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+Chassis chassis(1.0,1.0);
 /* USER CODE END 0 */
 
 /**
@@ -91,7 +92,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
   HAL_TIM_PWM_Start(&htim5,TIM_CHANNEL_2);
   HAL_TIM_Base_Start_IT(&htim3);
-  Chassis chassis;
+  
    //HAL_GPIO_WritePin(GPIOA,GPIO_PIN_1,GPIO_PIN_SET);
   /* USER CODE END 2 */
 

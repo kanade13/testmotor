@@ -4,18 +4,19 @@
 
 class Speed{
 private:
-    double vx{0.0};
-    double vy{0.0};
-    double vz{0.0};
+    double vx;
+    double vy;
+    double vz;
 public:
     void setspeed(double x,double y,double z){
         vx=x;
         vy=y;
         vz=z;
     }
+    Speed() : vx(0), vy(0), vz(0) {}
 };
 class Motorspeed{
-    double TargetA{0.0},TargetB{0.0},TargetC{0.0},TargetD{0.0};
+    double TargetA,TargetB,TargetC,TargetD;
     public:
     void setmotorspeed(double a,double b,double c,double d){
         TargetA=a;
@@ -23,6 +24,7 @@ class Motorspeed{
         TargetC=c;
         TargetD=d;
     }
+    Motorspeed():TargetA(0),TargetB(0),TargetC(0),TargetD(0){}
 };
 class Chassis{
 public:
@@ -30,12 +32,12 @@ public:
     void do_motor_output(int pwma,int pwmb,int pwmc,int pwmd);
     void do_motor_counter(GPIO_TypeDef * GPIO1,uint16_t GPIO_PIN1);
     void do_motor_speed();
-    Chassis();
+    Chassis(int car_h,int car_w):Car_H(car_h),Car_W(car_w){};
 private:
-    const double Car_H,Car_W;
+    double Car_H,Car_W;
     motor motora,motorb,motorc,motord;
     Speed speed;
     Motorspeed motorspeed;
 };
 
-extern Chassis chassis;
+

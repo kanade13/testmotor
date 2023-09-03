@@ -408,6 +408,11 @@
               <FilePath>../Core/Src/tim.c</FilePath>
             </File>
             <File>
+              <FileName>usart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Core/Src/usart.c</FilePath>
+            </File>
+            <File>
               <FileName>stm32f4xx_it.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Core/Src/stm32f4xx_it.c</FilePath>
@@ -497,6 +502,11 @@
               <FileType>1</FileType>
               <FilePath>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_exti.c</FilePath>
             </File>
+            <File>
+              <FileName>stm32f4xx_hal_uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -510,32 +520,22 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>middleware/pid</GroupName>
-          <Files>
-            <File>
-              <FileName>PID.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\user\PID.cpp</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>middleware/device</GroupName>
-          <Files>
-            <File>
-              <FileName>motor.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\user\motor.cpp</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>middleware/chassis</GroupName>
+          <GroupName>New Group</GroupName>
           <Files>
             <File>
               <FileName>chassis.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\user\chassis.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>motor.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\user\motor.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>PID.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\user\PID.cpp</FilePath>
             </File>
           </Files>
         </Group>

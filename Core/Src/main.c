@@ -19,13 +19,16 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "tim.h"
+#include "usart.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "chassis.hpp"
 #include "motor.hpp"
-
+#include "flag.hpp"
+#include <string.h>
+#include <stdio.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -57,6 +60,10 @@ void SystemClock_Config(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 Chassis chassis(1.0,1.0);
+flag flagset;
+uint8_t pwmdata[10];
+extern unsigned int counteri;
+unsigned int pwmoutput,onebite;
 /* USER CODE END 0 */
 
 /**
@@ -89,9 +96,18 @@ int main(void)
   MX_GPIO_Init();
   MX_TIM5_Init();
   MX_TIM3_Init();
+  //MX_TIM4_Init();
+  MX_USART1_UART_Init();
+  MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIM_PWM_Start(&htim5,TIM_CHANNEL_2);
   HAL_TIM_Base_Start_IT(&htim3);
+  //HAL_TIM_Base_Start_IT(&htim4);
+	HAL_TIM_Base_Start_IT(&htim2);
+
+  __HAL_UART_CLEAR_IDLEFLAG(&huart1);//清除空闲中断标志
+  __HAL_UART_ENABLE_IT(&huart1, UART_IT_IDLE | UART_IT_RXNE);//开启空闲中断和接收中断
+  HAL_UART_Receive_IT(&huart1, pwmdata, 100);//开启一次中断式接收
   
    //HAL_GPIO_WritePin(GPIOA,GPIO_PIN_1,GPIO_PIN_SET);
   /* USER CODE END 2 */
@@ -100,22 +116,49 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    for(int i=10000;i>-10000;i-=100){
-      chassis.do_motor_output(i,0,0,0);
-      HAL_Delay(10);
+    if(flagset.test2==1){
+      chassis.motora.set_definition(3.5);
+      flagset.test2=0;
     }
-    for(int i=-10000;i>10000;i+=100){
-      chassis.do_motor_output(i,0,0,0);
-      HAL_Delay(10);
+    if(flagset.test3==1){
+      chassis.motora.set_definition(1.5);
+      flagset.test3=0;
     }
-
+		if(flagset.counterflag){
+			
+				pwmoutput=0;
+				counteri=0;
+		    while ((pwmdata[counteri] >='0') && (pwmdata[counteri] <='9') &&(counteri<10))
+				{
+						onebite=pwmdata[counteri]-'0';
+						pwmoutput=pwmoutput*10+onebite;
+						counteri++;
+				}
+				HAL_UART_Receive_IT(&huart1, pwmdata, 100);//开启一次中断式接收
+    		flagset.counterflag=0;
+    }
     /* USER CODE END WHILE */
-
+				
     /* USER CODE BEGIN 3 */
-  }
+    if(flagset.speedtestflag){
+      
+      chassis.do_motor_speed();
+
+      float speed=chassis.return_speed();
+			uint8_t speeddata[10];
+			int	length=sprintf((char *)speeddata,"%.3f\n",speed);
+	    HAL_UART_Transmit(&huart1, speeddata, length , 200);
+      flagset.speedtestflag=0;
+    }
+    
+    if(flagset.test){
+      chassis.do_motor_output();
+      flagset.test=0;
+    }
+	//	chassis.do_motor_output(8191,0,0,0);
   /* USER CODE END 3 */
 }
-
+}
 /**
   * @brief System Clock Configuration
   * @retval None

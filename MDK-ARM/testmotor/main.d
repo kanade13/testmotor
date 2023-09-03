@@ -30,8 +30,13 @@ testmotor\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h
 testmotor\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h
 testmotor\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
 testmotor\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
+testmotor\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 testmotor\main.o: ../Core/Inc/tim.h
+testmotor\main.o: ../Core/Inc/usart.h
 testmotor\main.o: ../Core/Inc/gpio.h
 testmotor\main.o: .\user\chassis.hpp
 testmotor\main.o: .\user\motor.hpp
 testmotor\main.o: .\user\PID.hpp
+testmotor\main.o: .\user\flag.hpp
+testmotor\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+testmotor\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h

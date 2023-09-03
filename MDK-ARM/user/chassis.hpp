@@ -29,12 +29,14 @@ class Motorspeed{
 class Chassis{
 public:
     void Move_Transfrom(double Vx,double Vy,double Vz);
-    void do_motor_output(int pwma,int pwmb,int pwmc,int pwmd);
+    void do_motor_output();
     void do_motor_counter(GPIO_TypeDef * GPIO1,uint16_t GPIO_PIN1);
     void do_motor_speed();
+    //int get_counter(){return motora.get_counter();}
+    float return_speed(){return motora.return_speed();}
     Chassis(int car_h,int car_w):Car_H(car_h),Car_W(car_w){};
-private:
-    double Car_H,Car_W;
+public:
+    const double Car_H,Car_W;
     motor motora,motorb,motorc,motord;
     Speed speed;
     Motorspeed motorspeed;

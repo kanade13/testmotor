@@ -1,10 +1,34 @@
 #include "PID.hpp"
-//电机的位置式pid控制，注意：position和target的单位为 脉冲数/单位时间
+//电机的增量式PID控制
 
-int Position_PID::do_position_pid(int position,int target){
-    bias=target-position;
-    integal_bias+=bias;
-    pwm=kp*bias+ki*integal_bias+kd*(bias-last_bias);
-    last_bias=bias;
-    return pwm;
+float PID::do_pid()
+{
+  //设置死区
+    error_ll=error_l;
+    error_l=error;
+    error=definition-now;
+  float abserror=((error>0) ? error : -error);
+  if(abserror<this->deadband){
+    return out;
+  }
+  float out_p = kp*(error - error_l);
+  float out_i = ki*error;
+  float out_d = kd*(error - 2*error_l +error_ll);
+
+  out+=out_p+out_i+out_d;
+
+  if(out>max_speed)
+		out=max_speed;	//限幅
+	else if(out<-max_speed)
+		out=-max_speed;		//限幅
+  
+  return out;
+}
+
+void PID::set_definition(float definition){
+  this->definition=definition;
+}
+
+void PID::setnow(float now){
+  this->now=now;
 }

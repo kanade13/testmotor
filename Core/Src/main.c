@@ -33,7 +33,8 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-
+#undef HSE_VALUE     // 取消HSE_VALUE
+#define HSE_VALUE 8000000  // 重新定义
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -96,9 +97,10 @@ int main(void)
   MX_GPIO_Init();
   MX_TIM5_Init();
   MX_TIM3_Init();
-  //MX_TIM4_Init();
+  MX_TIM4_Init();
   MX_USART1_UART_Init();
   MX_TIM2_Init();
+  MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIM_PWM_Start(&htim5,TIM_CHANNEL_2);
   HAL_TIM_Base_Start_IT(&htim3);
@@ -106,8 +108,8 @@ int main(void)
 	HAL_TIM_Base_Start_IT(&htim2);
 
   __HAL_UART_CLEAR_IDLEFLAG(&huart1);//清除空闲中断标志
-  __HAL_UART_ENABLE_IT(&huart1, UART_IT_IDLE | UART_IT_RXNE);//开启空闲中断和接收中断
-  HAL_UART_Receive_IT(&huart1, pwmdata, 100);//开启一次中断式接收
+  __HAL_UART_ENABLE_IT(&huart1, UART_IT_IDLE | UART_IT_RXNE);//�?启空闲中断和接收中断
+  HAL_UART_Receive_IT(&huart1, pwmdata, 100);//�?启一次中断式接收
   
    //HAL_GPIO_WritePin(GPIOA,GPIO_PIN_1,GPIO_PIN_SET);
   /* USER CODE END 2 */
@@ -134,11 +136,11 @@ int main(void)
 						pwmoutput=pwmoutput*10+onebite;
 						counteri++;
 				}
-				HAL_UART_Receive_IT(&huart1, pwmdata, 100);//开启一次中断式接收
+				HAL_UART_Receive_IT(&huart1, pwmdata, 100);//�?启一次中断式接收
     		flagset.counterflag=0;
     }
     /* USER CODE END WHILE */
-				
+
     /* USER CODE BEGIN 3 */
     if(flagset.speedtestflag){
       

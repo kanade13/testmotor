@@ -7,10 +7,10 @@ float PID::do_pid()
     error_ll=error_l;
     error_l=error;
     error=definition-now;
-  float abserror=((error>0) ? error : -error);
-  if(abserror<this->deadband){
-    return out;
-  }
+  //float abserror=((error>0) ? error : -error);
+  //if(abserror<this->deadband){
+    //return out;
+  //}
   float out_p = kp*(error - error_l);
   float out_i = ki*error;
   float out_d = kd*(error - 2*error_l +error_ll);

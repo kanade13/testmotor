@@ -3,7 +3,7 @@
 #include "motor.hpp"
 
 class Speed{
-private:
+public:
     double vx;
     double vy;
     double vz;
@@ -16,8 +16,9 @@ public:
     Speed() : vx(0), vy(0), vz(0) {}
 };
 class Motorspeed{
+public:
     double TargetA,TargetB,TargetC,TargetD;
-    public:
+public:
     void setmotorspeed(double a,double b,double c,double d){
         TargetA=a;
         TargetB=b;
@@ -28,13 +29,13 @@ class Motorspeed{
 };
 class Chassis{
 public:
-    void Move_Transfrom(double Vx,double Vy,double Vz);
+    void Move_Transfrom();
     void do_motor_output();
-    void do_motor_counter(GPIO_TypeDef * GPIO1,uint16_t GPIO_PIN1);
     void do_motor_speed();
     //int get_counter(){return motora.get_counter();}
     float return_speed(){return motora.return_speed();}
     Chassis(int car_h,int car_w):Car_H(car_h),Car_W(car_w){};
+    void set_all_def();
 public:
     const double Car_H,Car_W;
     motor motora,motorb,motorc,motord;

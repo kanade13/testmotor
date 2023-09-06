@@ -10,13 +10,12 @@ public:
     float definition=0;
 public:
     static const int Gear_Ratio=51;
-    static const int Pulses_Per_Revolution=17;
+    static const int Pulses_Per_Revolution=13;
     static const int Contect_frequency=200;//每5ms发送一次电机速度,故检测频率设为200
     PID pid;
-    void Motor_Counter(GPIO_TypeDef * GPIO,uint16_t GPIO_PIN);
-    void Motor_Output();
+    void Motor_Counter();
+    void Motor_Output(GPIO_TypeDef* gpioa,uint16_t gpiopina,GPIO_TypeDef* gpiob,uint16_t gpiopinb,unsigned int tim_channel);
     void clear_counter();
-    //int get_counter(){return counter;};
     void get_speed();
     void set_definition(float definiton);
     float return_speed(){return Revolution_Per_Second;}

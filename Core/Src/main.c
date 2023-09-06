@@ -108,8 +108,8 @@ int main(void)
 	HAL_TIM_Base_Start_IT(&htim2);
 
   __HAL_UART_CLEAR_IDLEFLAG(&huart1);//清除空闲中断标志
-  __HAL_UART_ENABLE_IT(&huart1, UART_IT_IDLE | UART_IT_RXNE);//�?启空闲中断和接收中断
-  HAL_UART_Receive_IT(&huart1, pwmdata, 100);//�?启一次中断式接收
+  __HAL_UART_ENABLE_IT(&huart1, UART_IT_IDLE | UART_IT_RXNE);//�??启空闲中断和接收中断
+  HAL_UART_Receive_IT(&huart1, pwmdata, 100);//�??启一次中断式接收
   
    //HAL_GPIO_WritePin(GPIOA,GPIO_PIN_1,GPIO_PIN_SET);
   /* USER CODE END 2 */
@@ -118,12 +118,14 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    HAL_Delay(5000);
     if(flagset.test2==1){
-      chassis.motora.set_definition(3.5);
+      //chassis.motora.set_definition(3.5);
+      chassis.speed.setspeed(0.2,0,0);
       flagset.test2=0;
     }
     if(flagset.test3==1){
-      chassis.motora.set_definition(1.5);
+      //chassis.motora.set_definition(1.5);
       flagset.test3=0;
     }
 		if(flagset.counterflag){
@@ -136,31 +138,32 @@ int main(void)
 						pwmoutput=pwmoutput*10+onebite;
 						counteri++;
 				}
-				HAL_UART_Receive_IT(&huart1, pwmdata, 100);//�?启一次中断式接收
+				HAL_UART_Receive_IT(&huart1, pwmdata, 100);//�??启一次中断式接收
     		flagset.counterflag=0;
     }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
     if(flagset.speedtestflag){
-      
+      chassis.Move_Transfrom();
       chassis.do_motor_speed();
-
-      float speed=chassis.return_speed();
+      chassis.set_all_def();
+      /*float speed=chassis.return_speed();
 			uint8_t speeddata[10];
 			int	length=sprintf((char *)speeddata,"%.3f\n",speed);
-	    HAL_UART_Transmit(&huart1, speeddata, length , 200);
+	    HAL_UART_Transmit(&huart1, speeddata, length , 200);*/
       flagset.speedtestflag=0;
     }
     
-    if(flagset.test){
+    if(flagset.motoroutflag){
       chassis.do_motor_output();
-      flagset.test=0;
+      flagset.motoroutflag=0;
     }
+}
 	//	chassis.do_motor_output(8191,0,0,0);
   /* USER CODE END 3 */
 }
-}
+
 /**
   * @brief System Clock Configuration
   * @retval None
@@ -197,6 +200,7 @@ void SystemClock_Config(void)
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV4;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
 

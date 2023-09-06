@@ -237,51 +237,11 @@ void TIM2_IRQHandler(void)
   HAL_TIM_IRQHandler(&htim2);
   /* USER CODE BEGIN TIM2_IRQn 1 */
 		currenttime++;
-		if(currenttime%200==0){
-      flagset.speedtestflag=1;
-			/*counterrecord[i]=chassis.motora.counter;
-			chassis.motora.counter=0;
-			i++;*/
-			/*float speed=chassis.return_speed();
-			char speeddata[10];
-			sprintf(speeddata, "%.2f", speed);
-
-			// 计算字符串的长度
-			int length = strlen(speeddata);
-
-			// 棿查数组是否有足够的空间来容纳换行笿
-			if (length < sizeof(speeddata) - 1) {
-					// 添加换行符到字符串末�?
-					speeddata[length] = '\n';
-					speeddata[length + 1] = '\0'; // 确保字符串以 null 终止
-			}
-		const std::uint8_t *data = reinterpret_cast<const std::uint8_t *>(speeddata);
-
-		HAL_UART_Transmit(&huart1, data, length + 1, 500); // 发鿁整个字符串，包括换行�?
-    */
-    /*
-    int counter=chassis.motora.counter;
-    char counterdata[10];
-		sprintf(counterdata, "%d", counter);
-    int length = strlen(counterdata);
-
-			if (length < sizeof(counterdata) - 1) {
-					counterdata[length] = '\n';
-					//counterdata[length + 1] = '\0'; // 确保字符串以 null 终止
-			}
-		const std::uint8_t *data = reinterpret_cast<const std::uint8_t *>(counterdata);
-
-		
-    //HAL_UART_Transmit(&huart1, data, length + 1, 200); // 发鿁整个字符串，包括换行�?
-		HAL_UART_Transmit(&huart1, data, length , 200); // 发鿁整个字符串，包括换行�?
-    chassis.motora.counter=0;
-		*/
-		}
     if(currenttime%(1000/motor::Contect_frequency)==0){
       flagset.speedtestflag=1;
     }
     if(currenttime%10==0){
-      flagset.test=1;
+      flagset.motoroutflag=1;
     }
     if(currenttime==5000){
       flagset.test2=1;
@@ -306,7 +266,7 @@ void TIM3_IRQHandler(void)
   /* USER CODE END TIM3_IRQn 0 */
   HAL_TIM_IRQHandler(&htim3);
   /* USER CODE BEGIN TIM3_IRQn 1 */
-  //�??10ms触发�??次中�??,�??测电机�?�度
+  //�???10ms触发�???次中�???,�???测电机�?�度
    //   chassis.do_motor_speed();
   /* USER CODE END TIM3_IRQn 1 */
 }
@@ -338,11 +298,11 @@ void USART1_IRQHandler(void)
   /* USER CODE END USART1_IRQn 0 */
   HAL_UART_IRQHandler(&huart1);
   /* USER CODE BEGIN USART1_IRQn 1 */
-if (__HAL_UART_GET_FLAG(&huart1, UART_FLAG_IDLE) && __HAL_UART_GET_IT_SOURCE(&huart1, UART_IT_IDLE)) // 确认产生了串口空闲中�?
+if (__HAL_UART_GET_FLAG(&huart1, UART_FLAG_IDLE) && __HAL_UART_GET_IT_SOURCE(&huart1, UART_IT_IDLE)) // 确认产生了串口空闲中�??
 {
     __HAL_UART_CLEAR_IDLEFLAG(&huart1); // 清除空闲中断标志
-    HAL_UART_AbortReceive_IT(&huart1); // 终止中断式接�?
-		//__HAL_UART_CLEAR_FLAG(&huart1, UART_FLAG_FE);//清除错误标志�?
+    HAL_UART_AbortReceive_IT(&huart1); // 终止中断式接�??
+		//__HAL_UART_CLEAR_FLAG(&huart1, UART_FLAG_FE);//清除错误标志�??
 	  //HAL_UART_Receive(&huart1, (uint8_t*)data, 10, 100);
 		flagset.counterflag=1;
 }
@@ -350,7 +310,7 @@ if (__HAL_UART_GET_FLAG(&huart1, UART_FLAG_IDLE) && __HAL_UART_GET_IT_SOURCE(&hu
 }
 
 /* USER CODE BEGIN 1 */
-//中断处理函数，当�????测到来自电机编码器a相触发的中断时，根据b相的电压判断电机正反�????
+//中断处理函数，当�?????测到来自电机编码器a相触发的中断时，根据b相的电压判断电机正反�?????
 //并更新对应电机的counter
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
@@ -358,14 +318,25 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 	{
 		case GPIO_PIN_0:
 		{
-        chassis.do_motor_counter(GPIOC,GPIO_PIN_3);
+        chassis.motora.Motor_Counter();
 		}break;
-		default:break;
+    case GPIO_PIN_9:
+    {
+        chassis.motorb.Motor_Counter();
+    }break;
+    case GPIO_PIN_2:
+    {
+        chassis.motorc.Motor_Counter();
+    }
+    case GPIO_PIN_4:
+    {
+        chassis.motord.Motor_Counter();
+    }break;
 	}
 }
 /*void HAL_TIM_PeriodElapsedHalfCpltCallback(TIM_HandleTypeDef *htim){
 /*
-  if(htim==&htim3)//�???10ms触发�???次中�???,�???测电机�?�度
+  if(htim==&htim3)//�????10ms触发�????次中�????,�????测电机�?�度
   {
       chassis.do_motor_speed();
   }
@@ -396,9 +367,9 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
     // 计算字符串的长度
     int length = strlen(speeddata);
 
-    // �??查数组是否有足够的空间来容纳换行�??
+    // �???查数组是否有足够的空间来容纳换行�???
     if (length < sizeof(speeddata) - 1) {
-        // 添加换行符到字符串末�??
+        // 添加换行符到字符串末�???
         speeddata[length] = '\n';
         speeddata[length + 1] = '\0'; // 确保字符串以 null 终止
     }
@@ -415,7 +386,7 @@ HAL_UART_Transmit(&huart1, test2, 5, 500);
 //}
 /*void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
-	if(huart==&huart1)//因为回调函数被各个串口共用，�?以要先判断是哪个串口�?
+	if(huart==&huart1)//因为回调函数被各个串口共用，�??以要先判断是哪个串口�??
 	{
 
 	}
